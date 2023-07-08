@@ -1,0 +1,100 @@
+name: 3rd
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+
+  build-docker-image:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t janisievins99/python-greetings-app:latest .
+          docker push janisievins99/python-greetings-app:latest
+
+  deploy-to-dev:
+    needs: build-docker-image
+    runs-on: self-hosted
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy to Dev
+        run: |
+          echo "Deploying Python microservice to DEV environment..."
+          docker pull janisievins99/python-greetings-app:latest
+          docker-compose -f docker-compose.dev.yml down
+          docker-compose -f docker-compose.dev.yml up -d
+
+  tests-on-dev:
+    needs: deploy-to-dev
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Tests on Dev
+        run: |
+          echo "Running tests on DEV environment..."
+          docker pull janisievins99/api-tests:latest
+          docker run --network=host --rm janisievins99/api-tests:latest run greetings greetings_dev
+
+  deploy-to-stg:
+    needs: tests-on-dev
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy to STG
+        run: |
+          echo "Deploying Python microservice to STG environment..."
+          docker pull janisievins99/python-greetings-app:latest
+          docker-compose -f docker-compose.stg.yml down
+          docker-compose -f docker-compose.stg.yml up -d
+
+  tests-on-stg:
+    needs: deploy-to-stg
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Tests on STG
+        run: |
+          echo "Running tests on STG environment..."
+          docker pull janisievins99/api-tests:latest
+          docker run --network=host --rm janisievins99/api-tests:latest run greetings greetings_stg
+
+  deploy-to-prod:
+    needs: tests-on-stg
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy to PROD
+        run: |
+          echo "Deploying Python microservice to PROD environment..."
+          docker pull janisievins99/python-greetings-app:latest
+          docker-compose -f docker-compose.prod.yml down
+          docker-compose -f docker-compose.prod.yml up -d
+
+  tests-on-prod:
+    needs: deploy-to-prod
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Tests on PROD
+        run: |
+          echo "Running tests on PROD environment..."
+          docker pull janisievins99/api-tests:latest
+          docker run --network=host --rm janisievins99/api-tests:latest run greetings greetings_prod
