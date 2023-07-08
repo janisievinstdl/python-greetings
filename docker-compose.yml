@@ -1,0 +1,17 @@
+version: '3'
+services:
+  greetings-app-dev:
+    image: janisievins99/python-greetings-app:latest
+    ports:
+      - 7001:3000
+    container_name: greetings-app-dev
+  greetings-app-stg:
+    image: janisievins99/python-greetings-app:latest
+    ports:
+      - 7002:3000
+    container_name: greetings-app-stg
+  greetings-app-prod:
+    image: janisievins99/python-greetings-app:latest
+    ports:
+      - 7003:3000
+    container_name: greetings-app-prod
