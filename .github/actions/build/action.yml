@@ -1,0 +1,12 @@
+name: 'build docker image'
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Building and pushing the Docker image to Docker Hub"
+      shell: bash
+    - name: build docker image
+      run: docker build --no-cache -t janisievins99/python-greetings-app:latest .
+      shell: bash
+    - name: push docker image
+      run: docker push janisievins99/python-greetings-app:latest
+      shell: bash

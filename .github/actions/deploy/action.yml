@@ -1,4 +1,4 @@
-name: 'deployment'
+name: 'deploy greetings application'
 inputs:
   environment:
     required: true
@@ -7,12 +7,12 @@ runs:
   steps:
     - run: echo "Deployment triggered on ${{ inputs.environment }} environment.."
       shell: bash
-    - name: stop
+    - name: stop container
       run: docker-compose stop greetings-app-${{ inputs.environment }}
       shell: bash
-    - name: remove
+    - name: remove container
       run: docker-compose rm greetings-app-${{ inputs.environment }}
       shell: bash
-    - name: run
+    - name: run container
       run: docker-compose up -d greetings-app-${{ inputs.environment }}
       shell: bash

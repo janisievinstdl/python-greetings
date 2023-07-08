@@ -1,4 +1,4 @@
-name: 'run'
+name: 'run API tests'
 inputs:
   environment:
     required: true
@@ -7,6 +7,6 @@ runs:
   steps:
     - run: echo "API tests triggered on ${{ inputs.environment }} environment.."
       shell: bash
-    - name: Run API Tests
+    - name: run API Tests
       run: docker run --network=host --rm janisievins99/api-tests:latest run greetings greetings_${{ inputs.environment }}
       shell: bash
