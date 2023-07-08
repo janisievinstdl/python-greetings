@@ -20,7 +20,7 @@ jobs:
     needs: [build-docker-image]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/deploy.yml
+      - uses: ./.github/actions/deployment
         with:
           environment: 'dev'
   api-integration-tests-dev:
@@ -28,7 +28,7 @@ jobs:
     needs: [deploy-dev]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/run.yml
+      - uses: ./.github/actions/run
         with:
           environment: 'dev'
   deploy-stg:
@@ -36,7 +36,7 @@ jobs:
     needs: [api-integration-tests-dev]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/deploy.yml
+      - uses: ./.github/actions/deployment
         with:
           environment: 'stg'
   api-integration-tests-stg:
@@ -44,7 +44,7 @@ jobs:
     needs: [deploy-stg]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/run.yml
+      - uses: ./.github/actions/run
         with:
           environment: 'stg'
   deploy-prod:
@@ -52,7 +52,7 @@ jobs:
     needs: [api-integration-tests-stg]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/deploy.yml
+      - uses: ./.github/actions/deployment
         with:
           environment: 'prod'
   api-integration-tests-prod:
@@ -60,6 +60,6 @@ jobs:
     needs: [deploy-prod]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/run.yml
+      - uses: ./.github/actions/run
         with:
           environment: 'prod'
