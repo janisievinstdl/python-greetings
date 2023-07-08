@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "Janiss-MacBook-Pro",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelines.actions.githubusercontent.com/ZstcLMHgxB4B2AdWe5aiHKea5LR5dYUa4H58np7sVCwT2pvuJU",
+  "gitHubUrl": "https://github.com/janisievinstdl/python-greetings",
+  "workFolder": "_work"
+}

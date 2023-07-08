@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "janisievinstdl/python-greetings",
+  "pipelineDirectory": "python-greetings",
+  "workspaceDirectory": "python-greetings/python-greetings",
+  "repositories": {
+    "janisievinstdl/python-greetings": {
+      "repositoryPath": "python-greetings/python-greetings",
+      "lastRunOn": "07/08/2023 14:47:01 +03:00"
+    }
+  },
+  "lastRunOn": "07/08/2023 14:57:23 +03:00"
+}
